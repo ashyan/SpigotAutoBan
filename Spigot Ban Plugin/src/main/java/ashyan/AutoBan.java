@@ -1,5 +1,7 @@
 package ashyan;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import org.bukkit.BanEntry;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
