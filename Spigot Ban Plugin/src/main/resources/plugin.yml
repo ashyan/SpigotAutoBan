@@ -1,0 +1,4 @@
+name: AutoBan
+version: 1.0
+main: ashyan.AutoBan
+api-version: 1.17
