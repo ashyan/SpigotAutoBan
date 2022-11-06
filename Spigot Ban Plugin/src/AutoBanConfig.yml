@@ -1,0 +1,5 @@
+bot-token: BOT_TOKEN
+server-name: SERVER_NAME
+chat-name: CHAT_NAME
+time-type: second
+time-length: 5
