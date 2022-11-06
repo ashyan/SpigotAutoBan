@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Spigot Ban Plugin" />
+        <module name="auto-ban" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Spigot Ban Plugin" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

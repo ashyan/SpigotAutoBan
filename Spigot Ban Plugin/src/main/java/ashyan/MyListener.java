@@ -9,28 +9,25 @@ import java.util.logging.Logger;
 
 import static org.bukkit.BanList.Type.NAME;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+
 public class MyListener implements org.bukkit.event.Listener {
+    JDA jda;
     @EventHandler
     public void onConnectAttempt(PlayerDeathEvent event) {
         Logger logger = Bukkit.getLogger();
         BanList banned = Bukkit.getBanList(NAME);
         banned.addBan(event.getEntity().getName(), "lol you died", null, null);
         logger.info("Banned " + event.getEntity().getName());
-        event.getEntity().kickPlayer("lol you died");
-//        for(BanEntry player : banned.getBanEntries()) {
-//            String playerName = player.getTarget();
-//            message = "Get fucked, ";
-//            if(playerName.equals(event.getName())) {
-//                LocalDateTime now = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-//                LocalDateTime banDate = player.getCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-//                if(ChronoUnit.DAYS.between(banDate, now) >= 7) {
-//                    banned.pardon(playerName);
-//                    message = "Welcome back, ";
-//                }
-//                break;
-//            }
-//
-//        }
-//        Bukkit.broadcastMessage(message + event.getName() + "!");
+        event.getEntity().kickPlayer("erm you died");
+        Guild guild = jda.getGuildsByName("locked armor's server", true).get(0);
+        TextChannel channel = guild.getTextChannelsByName("bot-chat", true).get(0);
+        channel.sendMessage(event.getDeathMessage()).queue();
     }
+
+
 }
