@@ -31,7 +31,7 @@ public class AutoBan extends JavaPlugin {
     public void onEnable() {
         data = new DataManager(this);
         String token = data.getConfig().get("bot-token").toString();
-        String serverName = data.getConfig().get("server-name").toString();
+        String serverId = data.getConfig().get("server-id").toString();
         String chatName = data.getConfig().get("chat-name").toString();
         switch(data.getConfig().get("time-type").toString()) {
             case "day":
@@ -59,6 +59,8 @@ public class AutoBan extends JavaPlugin {
         Logger logger = Bukkit.getLogger();
         MyListener serverListener = new MyListener();
         serverListener.jda = jda;
+        serverListener.serverId = serverId;
+        serverListener.channelName = chatName;
         getServer().getPluginManager().registerEvents(serverListener, this);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
@@ -71,7 +73,7 @@ public class AutoBan extends JavaPlugin {
                     if(timeType.between(banDate, now) >= timeLength) {
                         banned.pardon(playerName);
                         logger.info("Unbanned " + playerName);
-                        Guild guild = jda.getGuildsByName(serverName, true).get(0);
+                        Guild guild = jda.getGuildById(serverId);
                         TextChannel channel = guild.getTextChannelsByName(chatName, true).get(0);
                         channel.sendMessage(playerName + " has been unbanned from the server!").queue();
                     }

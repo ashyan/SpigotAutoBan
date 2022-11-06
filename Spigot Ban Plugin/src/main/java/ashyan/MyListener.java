@@ -10,22 +10,22 @@ import java.util.logging.Logger;
 import static org.bukkit.BanList.Type.NAME;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class MyListener implements org.bukkit.event.Listener {
     JDA jda;
+    String serverId;
+    String channelName;
     @EventHandler
     public void onConnectAttempt(PlayerDeathEvent event) {
         Logger logger = Bukkit.getLogger();
         BanList banned = Bukkit.getBanList(NAME);
-        banned.addBan(event.getEntity().getName(), "lol you died", null, null);
+        banned.addBan(event.getEntity().getName(), "erm you died", null, null);
         logger.info("Banned " + event.getEntity().getName());
         event.getEntity().kickPlayer("erm you died");
-        Guild guild = jda.getGuildsByName("locked armor's server", true).get(0);
-        TextChannel channel = guild.getTextChannelsByName("bot-chat", true).get(0);
+        Guild guild = jda.getGuildById(serverId);
+        TextChannel channel = guild.getTextChannelsByName(channelName, true).get(0);
         channel.sendMessage(event.getDeathMessage()).queue();
     }
 
