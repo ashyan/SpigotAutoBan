@@ -1,5 +1,6 @@
-ashyan\AutoBan$1.class
-ashyan\DataManager.class
 ashyan\DiscordBot.class
 ashyan\MyListener.class
+ashyan\BanManager.class
+ashyan\AutoBan$1.class
+ashyan\DataManager.class
 ashyan\AutoBan.class

@@ -27,57 +27,21 @@ public class AutoBan extends JavaPlugin {
     DataManager data;
     ChronoUnit timeType;
     int timeLength;
+
+    DiscordBot discordBot;
     @Override
     public void onEnable() {
         data = new DataManager(this);
-        String token = data.getConfig().get("bot-token").toString();
-        String serverId = data.getConfig().get("server-id").toString();
-        String chatName = data.getConfig().get("chat-name").toString();
-        switch(data.getConfig().get("time-type").toString()) {
-            case "day":
-                timeType = ChronoUnit.DAYS;
-                break;
-            case "second":
-                timeType = ChronoUnit.SECONDS;
-                break;
-            case "hour":
-                timeType = ChronoUnit.HOURS;
-                break;
-            default:
-                timeType = ChronoUnit.DAYS;
-        }
-        timeLength = parseInt(data.getConfig().get("time-length").toString());
 
+        BanManager banManager = new BanManager(data);
+        discordBot = new DiscordBot(data, banManager);
 
-        try {
-            jda = JDABuilder.createLight(token) // slash commands don't need any intents
-                    .addEventListeners(new DiscordBot())
-                    .build().awaitReady();
-        } catch (javax.security.auth.login.LoginException | InterruptedException exception) {
-
-        }
-        Logger logger = Bukkit.getLogger();
-        MyListener serverListener = new MyListener();
-        serverListener.jda = jda;
-        serverListener.serverId = serverId;
-        serverListener.channelName = chatName;
+        MyListener serverListener = new MyListener(discordBot, banManager);
         getServer().getPluginManager().registerEvents(serverListener, this);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
-                BanList banned = Bukkit.getBanList(NAME);
-                for(BanEntry player : banned.getBanEntries()) {
-                    String playerName = player.getTarget();
-                    LocalDateTime now = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    LocalDateTime banDate = player.getCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    if(timeType.between(banDate, now) >= timeLength) {
-                        banned.pardon(playerName);
-                        logger.info("Unbanned " + playerName);
-                        Guild guild = jda.getGuildById(serverId);
-                        TextChannel channel = guild.getTextChannelsByName(chatName, true).get(0);
-                        channel.sendMessage(playerName + " has been unbanned from the server!").queue();
-                    }
-                }
+                banManager.updateBanList(discordBot);
             }
         }, 0, 20 * 5);
     }
