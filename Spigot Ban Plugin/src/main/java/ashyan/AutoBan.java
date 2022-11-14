@@ -1,27 +1,14 @@
 package ashyan;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-
-import org.bukkit.BanEntry;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginLoadOrder;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.BanList;
-import org.w3c.dom.Text;
+import org.bukkit.plugin.java.annotation.command.Command;
+import org.bukkit.plugin.java.annotation.command.Commands;
+import org.bukkit.plugin.java.annotation.plugin.Plugin;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.logging.Logger;
-
-import static java.lang.Integer.parseInt;
-import static org.bukkit.BanList.Type.NAME;
-
 public class AutoBan extends JavaPlugin {
     JDA jda;
     DataManager data;
@@ -38,6 +25,8 @@ public class AutoBan extends JavaPlugin {
 
         MyListener serverListener = new MyListener(discordBot, banManager);
         getServer().getPluginManager().registerEvents(serverListener, this);
+
+        this.getCommand("revive").setExecutor(new CommandRevive(banManager, data, discordBot));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {

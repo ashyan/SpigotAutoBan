@@ -84,6 +84,11 @@ public class BanManager {
         }
     }
 
+    public void unBan(String playerName) {
+        BanList banned = Bukkit.getBanList(NAME);
+        banned.pardon(playerName);
+    }
+
     public String checkUnban(String username)
     {
         BanList banned = Bukkit.getBanList(NAME);
@@ -98,6 +103,17 @@ public class BanManager {
         }
 
         return "Could not find " + username + " in ban list";
+    }
+
+    public boolean isBanned(String username) {
+        BanList banned = Bukkit.getBanList(NAME);
+        for (BanEntry player : banned.getBanEntries()) {
+            if(player.getTarget().equals(username)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void onDeath(PlayerDeathEvent event) {

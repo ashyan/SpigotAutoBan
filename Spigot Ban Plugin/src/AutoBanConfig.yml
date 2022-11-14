@@ -3,3 +3,4 @@ server-id: SERVER_ID
 chat-name: CHAT_NAME
 time-type: second
 time-length: 5
+diamond-removal-amount: 16

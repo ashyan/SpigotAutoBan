@@ -14,5 +14,6 @@ import os, shutil
 if "AutoBan" in os.listdir("E:/Code Stuff/mc server/plugins/"):
     shutil.rmtree("E:/Code Stuff/mc server/plugins/AutoBan")
 
-shutil.copyfile("auto-ban-1.0-SNAPSHOT-All.jar", "E:/Code Stuff/mc server/plugins/AutoBan.jar")
+shutil.copyfile("auto-ban-1.2-SNAPSHOT-All.jar", "E:/Code Stuff/mc server/plugins/AutoBan.jar")
 shutil.copyfile(os.getcwd() + "/../src/AutoBanConfig.yml", "E:/Code Stuff/mc server/plugins/AutoBanConfig.yml")
+#shutil.copyfile(os.getcwd() + "/../src/main/resources/plugin.yml", "E:/Code Stuff/mc server/plugin.yml")

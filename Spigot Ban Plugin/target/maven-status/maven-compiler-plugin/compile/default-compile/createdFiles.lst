@@ -3,4 +3,5 @@ ashyan\MyListener.class
 ashyan\BanManager.class
 ashyan\AutoBan$1.class
 ashyan\DataManager.class
+ashyan\CommandRevive.class
 ashyan\AutoBan.class

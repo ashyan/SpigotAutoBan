@@ -22,7 +22,7 @@ public class MyListener implements org.bukkit.event.Listener {
 
         String death = event.getDeathMessage();
 
-        String message = death + " They will be unbanned at " + unbanStr;
+        String message = death + ". They will be unbanned at " + unbanStr;
         this.discordBot.sendMesageToChannel(message);
     }
 
