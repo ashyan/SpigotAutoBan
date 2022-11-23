@@ -1,0 +1,8 @@
+name: AutoBan
+version: 1.2
+main: ashyan.AutoBan
+api-version: 1.17
+commands:
+  revive:
+    description: Unbans the inputted playername for the configured amount of diamonds
+    usage: /<command> <playerName>

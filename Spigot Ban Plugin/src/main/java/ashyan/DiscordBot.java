@@ -15,6 +15,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.time.LocalDateTime;
+import java.util.Hashtable;
+
 import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
 import static org.bukkit.BanList.Type.NAME;
 
@@ -24,9 +26,12 @@ public class DiscordBot extends ListenerAdapter {
 
     TextChannel channel;
     BanManager banManager;
+
+
     public DiscordBot(DataManager data, BanManager banManager) {
         this.data = data;
         this.banManager = banManager;
+
         String token = data.getConfig().get("bot-token").toString();
 
         try {
@@ -66,6 +71,10 @@ public class DiscordBot extends ListenerAdapter {
                 checkUnban(event, event.getOption("username").getAsString()); // content is required so no null-check here
                 break;
 
+            case "mcsetmention":
+                setMention(event, event.getOption("username").getAsString());
+                break;
+            
             default:
                 event.reply("I can't handle that command right now :(").setEphemeral(true).queue();
         }
@@ -75,6 +84,14 @@ public class DiscordBot extends ListenerAdapter {
     {
         String message = banManager.checkUnban(username);
 
+        event.reply(message).queue();
+    }
+
+    public void setMention(SlashCommandInteractionEvent event, String username)
+    {
+        
+        data.writeNameLink(username, event.getUser().getId());
+        String message = "You will be mentioned when you are unbanned, thanks! (*pisses)";
         event.reply(message).queue();
     }
 

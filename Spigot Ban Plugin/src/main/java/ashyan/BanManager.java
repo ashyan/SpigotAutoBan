@@ -78,8 +78,15 @@ public class BanManager {
             if(timeType.between(banDate, now) >= timeLength) {
                 banned.pardon(playerName);
                 logger.info("Unbanned " + playerName);
-                String message = playerName + " has been unbanned from the server!";
-                discordBot.sendMesageToChannel(message);
+                if(data.readNameLink(playerName) != "none"){
+                    String message = "@" + data.readNameLink(playerName) + " you've been unbanned!";
+                    discordBot.sendMesageToChannel(message);
+                } else {
+                    String message = playerName + " has been unbanned from the server!";
+                    discordBot.sendMesageToChannel(message);
+                }
+
+
             }
         }
     }
